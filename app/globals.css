@@ -7,11 +7,16 @@
   --foreground: #f8fafc;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   color: var(--foreground);
   background-color: var(--background);
   font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 

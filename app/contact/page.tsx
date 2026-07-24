@@ -122,7 +122,7 @@ export default function ContactPage() {
                       <span className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
                         Target Department
                       </span>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         {[
                           { label: "General Support", val: "general" },
                           { label: "Security & PGP", val: "security" },

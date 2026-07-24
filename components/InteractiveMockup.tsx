@@ -52,6 +52,7 @@ export default function InteractiveMockup() {
   ]);
   const [ocrText, setOcrText] = useState<string>("");
   const [ocrAnimating, setOcrAnimating] = useState<boolean>(false);
+  const [mobileTab, setMobileTab] = useState<"vault" | "files" | "chat">("files");
 
   // Mock document database grouped by folder
   const [documents, setDocuments] = useState<Record<string, MockDoc[]>>({
@@ -196,25 +197,69 @@ export default function InteractiveMockup() {
       </AnimatePresence>
 
       {/* OS Title Bar */}
-      <div className="flex items-center justify-between px-6 py-3.5 bg-brand-navy-deep/90 border-b border-white/5">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 bg-brand-navy-deep/90 border-b border-white/5">
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
           <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
           <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-          <span className="text-xs text-slate-500 ml-4 font-mono">familyos_desktop_v1.0.4.sh</span>
+          <span className="text-[10px] sm:text-xs text-slate-500 ml-2 sm:ml-4 font-mono truncate max-w-[100px] sm:max-w-none">
+            familyos_desktop_v1.0.4.sh
+          </span>
         </div>
-        <div className="flex items-center gap-4 text-slate-400 text-xs">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/5 border border-white/5">
+        <div className="flex items-center gap-2 sm:gap-4 text-slate-400 text-xs">
+          <div className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded bg-white/5 border border-white/5">
             <Shield className="w-3 h-3 text-brand-blue" />
-            <span className="font-semibold text-[10px] tracking-wider text-slate-300">SECURE ZERO-KNOWLEDGE</span>
+            <span className="hidden sm:inline font-semibold text-[9px] sm:text-[10px] tracking-wider text-slate-300">
+              SECURE ZERO-KNOWLEDGE
+            </span>
           </div>
           <Bell className="w-4 h-4 hover:text-white cursor-pointer" />
         </div>
       </div>
 
+      {/* Mobile Tab Switcher */}
+      <div className="flex border-b border-white/5 bg-brand-navy-deep/40 lg:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileTab("vault")}
+          className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-semibold border-b-2 transition-all ${
+            mobileTab === "vault"
+              ? "border-brand-blue text-white bg-white/5"
+              : "border-transparent text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <Folder className="w-4 h-4" />
+          <span>Vault</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab("files")}
+          className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-semibold border-b-2 transition-all ${
+            mobileTab === "files"
+              ? "border-brand-blue text-white bg-white/5"
+              : "border-transparent text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>Files</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab("chat")}
+          className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-semibold border-b-2 transition-all ${
+            mobileTab === "chat"
+              ? "border-brand-blue text-white bg-white/5"
+              : "border-transparent text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <MessageSquare className="w-4 h-4" />
+          <span>AI Chat</span>
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px] text-slate-200">
         {/* Left Sidebar - Col 3 */}
-        <div className="lg:col-span-3 bg-brand-navy-deep/60 border-r border-white/5 p-5 flex flex-col justify-between">
+        <div className={`lg:col-span-3 bg-brand-navy-deep/60 lg:border-r border-white/5 p-5 flex flex-col justify-between ${mobileTab === "vault" ? "flex" : "hidden lg:flex"}`}>
           <div className="flex flex-col gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
@@ -286,7 +331,7 @@ export default function InteractiveMockup() {
         </div>
 
         {/* Center Main Dashboard Content - Col 5 */}
-        <div className="lg:col-span-5 p-6 flex flex-col justify-between">
+        <div className={`lg:col-span-5 p-6 flex flex-col justify-between ${mobileTab === "files" ? "flex" : "hidden lg:flex"}`}>
           <div className="flex flex-col gap-5">
             {/* Top Toolbar */}
             <div className="flex items-center justify-between gap-3">
@@ -361,7 +406,7 @@ export default function InteractiveMockup() {
                       <FileText className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-white group-hover:text-brand-blue transition-colors">
+                      <p className="text-xs font-medium text-white group-hover:text-brand-blue transition-colors truncate max-w-[120px] sm:max-w-none">
                         {doc.name}
                       </p>
                       <div className="flex items-center gap-2 mt-0.5 text-[10px] text-slate-500">
@@ -404,7 +449,7 @@ export default function InteractiveMockup() {
         </div>
 
         {/* Right Chat Panel - Col 4 */}
-        <div className="lg:col-span-4 bg-brand-navy-deep/40 border-l border-white/5 p-5 flex flex-col justify-between">
+        <div className={`lg:col-span-4 bg-brand-navy-deep/40 lg:border-l border-white/5 p-5 flex flex-col justify-between ${mobileTab === "chat" ? "flex" : "hidden lg:flex"}`}>
           <div className="flex flex-col h-[400px] justify-between">
             <div>
               {/* Header */}

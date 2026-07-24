@@ -101,9 +101,12 @@ export default function Roadmap() {
                   
                   {/* Left Column Description */}
                   <div className="lg:col-span-7 flex flex-col gap-3">
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded border border-white/5">
                         {item.phase}
+                      </span>
+                      <span className="text-[10px] font-mono text-brand-blue-glow uppercase tracking-wider md:hidden">
+                        {item.date}
                       </span>
                       {isActive && (
                         <span className="text-[9px] font-semibold text-brand-violet-glow uppercase animate-pulse">
